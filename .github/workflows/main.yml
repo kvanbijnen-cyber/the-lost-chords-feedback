@@ -14,7 +14,7 @@ jobs:
       - name: Prepare SGDK project
         run: |
           mkdir -p src
-          cp main.c src/main.c
+          mv main.c src/main.c
           chmod -R 777 "$GITHUB_WORKSPACE"
 
       - name: Build Mega Drive ROM
