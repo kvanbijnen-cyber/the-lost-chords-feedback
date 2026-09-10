@@ -1,0 +1,15 @@
+ANDROID QUICK GUIDE
+
+GitHub:
+1. New repository
+2. Upload all files/folders from this package
+3. Actions
+4. Build Mega Drive ROM
+5. Run workflow
+6. Wait for green check
+7. Download artifact: The_Lost_Chords_Feedback_ROM
+8. Extract The_Lost_Chords_Feedback.bin
+9. Copy .bin to EverDrive SD card
+10. Boot it on the Mega Drive
+
+If GitHub reports an error, copy the error text back into ChatGPT.
