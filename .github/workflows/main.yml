@@ -18,16 +18,13 @@ jobs:
           chmod -R 777 "$GITHUB_WORKSPACE"
 
       - name: Build Mega Drive ROM
-        run: docker run --rm -v "$GITHUB_WORKSPACE:/src" ghcr.io/rhargreaves/docker-sgdk:v2.00
+        run: docker run --rm -v "$GITHUB_WORKSPACE:/m68k" ghcr.io/rhargreaves/docker-sgdk:v2.00
 
-      - name: Find and rename ROM
-        run: |
-          ROM=$(find . -type f -name "rom.bin" | head -n 1)
-          if [ -z "$ROM" ]; then
-            echo "ERROR: rom.bin was not created"
-            exit 1
-          fi
-          cp "$ROM" The_Lost_Chords_Feedback.bin
+      - name: Check ROM
+        run: test -f out/rom.bin
+
+      - name: Rename ROM
+        run: cp out/rom.bin The_Lost_Chords_Feedback.bin
 
       - name: Upload ROM
         uses: actions/upload-artifact@v4
