@@ -1,0 +1,33 @@
+name: Build Mega Drive ROM
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Get repository
+        uses: actions/checkout@v4
+
+      - name: Prepare SGDK project
+        run: |
+          mkdir -p src
+          cp main.c src/main.c
+
+      - name: Build Mega Drive ROM
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/m68k" \
+            ghcr.io/rhargreaves/docker-sgdk:v2.00
+
+      - name: Rename ROM
+        run: |
+          cp out/rom.bin The_Lost_Chords_Feedback.bin
+
+      - name: Upload ROM
+        uses: actions/upload-artifact@v4
+        with:
+          name: The_Lost_Chords_Feedback_ROM
+          path: The_Lost_Chords_Feedback.bin
