@@ -16,11 +16,11 @@ jobs:
           docker run --rm \
             -v "${{ github.workspace }}:/src" \
             -w /src \
-            ghcr.io/rhargreaves/docker-sgdk:v2.00 \
-            make -f /sgdk/makefile.gen
+            ghcr.io/rhargreaves/docker-sgdk:v2.00
 
       - name: Find and rename ROM
         run: |
+          echo "Searching for generated ROM..."
           find . -type f -name "rom.bin" -print
           ROM=$(find . -type f -name "rom.bin" | head -n 1)
           if [ -z "$ROM" ]; then
