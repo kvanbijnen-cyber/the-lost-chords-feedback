@@ -19,8 +19,9 @@ jobs:
       - name: Build Mega Drive ROM
         run: |
           docker run --rm \
-            -v "$GITHUB_WORKSPACE:/m68k" \
-            ghcr.io/rhargreaves/docker-sgdk:v2.00
+  --user "$(id -u):$(id -g)" \
+  -v "$GITHUB_WORKSPACE:/m68k" \
+  ghcr.io/rhargreaves/docker-sgdk:v2.00
 
       - name: Rename ROM
         run: |
