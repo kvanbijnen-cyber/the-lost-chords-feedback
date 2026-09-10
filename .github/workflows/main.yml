@@ -11,8 +11,11 @@ jobs:
       - name: Get repository
         uses: actions/checkout@v4
 
-      - name: Make workspace writable
-        run: chmod -R 777 "$GITHUB_WORKSPACE"
+      - name: Prepare SGDK project
+        run: |
+          mkdir -p src
+          cp main.c src/main.c
+          chmod -R 777 "$GITHUB_WORKSPACE"
 
       - name: Build Mega Drive ROM
         run: docker run --rm -v "$GITHUB_WORKSPACE:/src" ghcr.io/rhargreaves/docker-sgdk:v2.00
@@ -30,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: The_Lost_Chords_Feedback_ROM
-          path: The_Lost_Chords_Feedback.bin 
+          path: The_Lost_Chords_Feedback.bin
