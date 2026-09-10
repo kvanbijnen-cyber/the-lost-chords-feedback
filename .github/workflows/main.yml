@@ -11,21 +11,23 @@ jobs:
       - name: Get repository
         uses: actions/checkout@v4
 
-      - name: Prepare SGDK project
-        run: |
-          mkdir -p src
-          cp main.c src/main.c
-
       - name: Build Mega Drive ROM
         run: |
           docker run --rm \
-  --user "$(id -u):$(id -g)" \
-  -v "$GITHUB_WORKSPACE:/m68k" \
-  ghcr.io/rhargreaves/docker-sgdk:v2.00
+            -v "${{ github.workspace }}:/src" \
+            -w /src \
+            ghcr.io/rhargreaves/docker-sgdk:v2.00 \
+            make -f /sgdk/makefile.gen
 
-      - name: Rename ROM
+      - name: Find and rename ROM
         run: |
-          cp out/rom.bin The_Lost_Chords_Feedback.bin
+          find . -type f -name "rom.bin" -print
+          ROM=$(find . -type f -name "rom.bin" | head -n 1)
+          if [ -z "$ROM" ]; then
+            echo "ERROR: rom.bin was not created"
+            exit 1
+          fi
+          cp "$ROM" The_Lost_Chords_Feedback.bin
 
       - name: Upload ROM
         uses: actions/upload-artifact@v4
